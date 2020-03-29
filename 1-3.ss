@@ -1,0 +1,12 @@
+(define (sumExpMin a b c)
+  (cond ((and (< a b)
+              (< a c))
+         (+ b c))
+        ((< b c) 
+         (+ a c))
+        (else (+ a b))))
+
+; (display (sumExpMin 1 2 3))
+; (display (sumExpMin 6 2 3))
+; (display (sumExpMin 9 5 3))
+(exit)
