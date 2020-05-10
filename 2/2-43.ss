@@ -1,0 +1,2 @@
+会多次重复调用queen-cols
+大概kT
