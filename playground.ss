@@ -1,38 +1,40 @@
-(define (dn x)
-  (display x)
-  (newline))
+#lang racket
 
-(define nil '())
+ ( require ( planet "sicp.ss" ( "soegaard" "sicp.plt" 2 1)))
 
-(define (accumulate op initial sequence)
-  (if (null? sequence)
-      initial
-      (op (car sequence)
-          (accumulate op initial (cdr sequence)))))
+(define wave einstein)
 
-(define (enumerate-interval x y)
-  (if (> x y)
-      nil
-      (cons x (enumerate-interval (+ x 1) y))))
+;*****************************
 
+(define (right-split painter n)
+  (if (= n 0)
+      painter
+      (let ((smaller (right-split painter (- n 1))))
+           (beside painter (below smaller smaller)))))
 
-
-(define (flatmap proc seq)
-  (accumulate append nil (map proc seq)))
-
-; ***********************
+(define (up-split painter n)
+  (if (= n 0)
+      painter
+      (let ((smaller (up-split painter (- n 1))))
+           (below painter (beside smaller smaller)))))
 
 
+(define (corner-split painter n)
+  (if (= n 0)
+      painter
+      (let ((up (up-split painter (- n 1)))
+            (right (right-split painter (- n 1))))
+           (let ((top-left (beside up up))
+                 (bottom-right (below right right))
+                 (corner (corner-split painter (- n 1))))
+                (beside (below painter top-left)
+                        (below bottom-right corner))))))
 
+; (paint (corner-split wave 4))
 
-(define (even-sum? pair)
-  (even? (+ (car pair) (cadr pair))))
+(define (square-limit painter n)
+  (let ((quarter (corner-split painter n)))
+       (let ((half (beside (flip-horiz quarter) quarter)))
+            (below (flip-vert half) half))))
 
-(define (make-pair-sum pair)
-  (list (car pair) (cadr pair) (+ (car pair) (cadr pair))))
-
-(define (even-sum-pairs n)
-  (map make-pair-sum
-       (filter prime-sum?)))
-
-(exit)
+(paint (square-limit wave 4))
