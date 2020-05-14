@@ -1,3 +1,4 @@
+; http://community.schemewiki.org/?sicp-ex-2.57
 (define (dn x)
   (display x)
   (newline))
