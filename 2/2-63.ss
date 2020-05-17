@@ -44,6 +44,9 @@
 
 ; **********************
 
-
+; a: 结果相同
+; b:
+; https://sicp.readthedocs.io/en/latest/chp2/63.html
+; 复杂度 啊啊啊啊啊啊
 
 (exit)
