@@ -2,47 +2,33 @@
   (display x)
   (newline))
 
-(define nil '())
-
 (define true #t)
 
 (define false #f)
 
 ; **********************
 
-(define (entry tree)
-  (car tree))
+; (define balance 100)
 
-(define (left-branch tree)
-  (cadr tree))
+; (define (withdraw amount)
+;   (if (>= balance amount)
+;       (begin (set! balance (- balance amount))
+;              balance)
+;       "sb"))
 
-(define (right-branch tree)
-  (caddr tree))
+(define (new-withdraw)
+  (define balance 100)
+  (lambda (amount)
+    (if (>= balance amount)
+      (begin (set! balance (- balance amount))
+             balance)
+      "sb")))
 
-(define (make-tree entry left right)
-  (list entry left right))
+(define withdraw (new-withdraw))
 
-(define (element-of-set? x set)
-  (cond ((null? set) false)
-        ((= x (entry set)) true)
-        ((< x (entry set))
-         (element-of-set? x (left-branch set)))
-        ((> x (entry set))
-         (element-of-set? x (right-branch set)))))
-
-(define (adjoin-set x set)
-  (cond ((null? set) (make-tree x nil nil))
-        ((= x (entry set)) set)
-        ((< x (entry set))
-         (make-tree (entry set)
-                    (adjoin-set x (left-branch set))
-                    (right-branch set)))
-        ((> x (entry set))
-         (make-tree (entry set)
-                    (left-branch set)
-                    (adjoin-set x (right-branch set))))))
-
-; **********************
+(dn (withdraw 50))
+(dn (withdraw 100))
+(dn (withdraw 15))
 
 
 
