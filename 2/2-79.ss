@@ -1,5 +1,3 @@
-;;; test.ss
-
 (define (dn x)
   (display x)
   (newline))
