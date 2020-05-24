@@ -1,2 +1,0 @@
-
-(define sb "sb")
