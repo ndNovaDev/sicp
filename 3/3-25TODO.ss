@@ -1,0 +1,62 @@
+(define (dn x)
+  (display x)
+  (newline))
+
+; **********************
+
+(define (assoc key records)
+  (cond ((null? records) #f)
+        ((equal? key (caar records)) (car records))
+        (else (assoc key (cdr records)))))
+
+(define (make-table)
+  (let ((local-table (list '*table*)))
+      ;  (define (lookup key-1 key-2)
+      ;   (let ((subtable (assoc key-1 (cdr local-table))))
+      ;        (if subtable
+      ;            (let ((record (assoc key-2 (cdr subtable))))
+      ;                 (if record
+      ;                     (cdr record)
+      ;                     #f))
+      ;            #f)))
+       (define (lookup keys)
+        (define (iter table keys)
+          (cond ((null? table) #f)
+                ((null? keys) (cdr table))
+                (else
+                  (let ((key (car keys))
+                        (rest-keys (cdr keys)))
+                       (let ((subtable (assoc key (cdr table))))
+                            (if subtable
+                                (iter subtable rest-keys)
+                                #f))))))
+        (iter local-table keys))
+       (define (insert! keys value)
+        (define (iter table keys)
+          (let ((key (car keys))
+               (rest-keys (cdr keys)))
+               (let ((subtable (assoc key (cdr table)))
+                     (last (null? rest-keys)))
+                    (cond ((and subtable last)
+                           ())
+                          ((and subtable (not last))
+                           ())
+                          ((and (not subtable) last)
+                           ())
+                          (else
+                           ())))))
+        (iter local-table keys)
+        'ok)
+       (define (dispatch m)
+        (cond ((eq? m 'lookup-proc) lookup)
+              ((eq? m 'insert-proc!) insert!)
+              (else (error "sb" "sb"))))
+  dispatch))
+(define operation-table (make-table))
+(define get (operation-table 'lookup-proc))
+(define put (operation-table 'insert-proc!))
+
+
+(put '(a b c d e) 41)
+(dn (get '(a b c)))
+(exit)
