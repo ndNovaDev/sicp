@@ -162,30 +162,33 @@
 
 ; ********************************
 
-(define (squarer a b)
-  (define (processNewValue)
-    (if (hasValue b)
-        (if (< (getValue b) 0)
-            (error "sb" "sb")
-            (setValue a
-                      (sqrt (getValue b))
-                      me))
-        (setValue b
-                  (* a a)
-                  me)))
-  (define (processForgetValue)
-    (forgetValue a me)
-    (forgetValue b me)
-    (processNewValue))
-  (define (me request)
-    (cond ((eq? request 'IHaveAValue)
-           (processNewValue))
-          ((eq? request 'ILostMyValue)
-           (processForgetValue))
-          (else
-           (error "sb" "sb"))))
-  (connect a me)
-  (connect b me)
-  me)
+(define (c+ x y)
+  (let ((z (makeConnector)))
+    (adder x y z)
+    z))
+
+; ********************************
+; c-
+; c*
+; c/
+; cv
+
+(define (c- x y)
+  (let ((z (makeConnector)))
+    (adder z y x)
+    z))
+
+(define (c* x y)
+  (let ((z (makeConnector)))
+    (multiplier x y z)
+    z))
+(define (c/ x y)
+  (let ((z (makeConnector)))
+    (multiplier z y x)
+    z))
+(define (cv x)
+  (let ((z (makeConnector)))
+    (constant x z)
+    z))
 
 (exit)

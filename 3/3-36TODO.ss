@@ -162,30 +162,6 @@
 
 ; ********************************
 
-(define (squarer a b)
-  (define (processNewValue)
-    (if (hasValue b)
-        (if (< (getValue b) 0)
-            (error "sb" "sb")
-            (setValue a
-                      (sqrt (getValue b))
-                      me))
-        (setValue b
-                  (* a a)
-                  me)))
-  (define (processForgetValue)
-    (forgetValue a me)
-    (forgetValue b me)
-    (processNewValue))
-  (define (me request)
-    (cond ((eq? request 'IHaveAValue)
-           (processNewValue))
-          ((eq? request 'ILostMyValue)
-           (processForgetValue))
-          (else
-           (error "sb" "sb"))))
-  (connect a me)
-  (connect b me)
-  me)
+
 
 (exit)
