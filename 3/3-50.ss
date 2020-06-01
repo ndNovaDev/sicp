@@ -10,6 +10,9 @@
 
 (define theEmptyStream '())
 
+(define (streamNull s)
+  (null? '()))
+
 (define (streamRef s n)
   (if (= n 0)
       (streamCar s)
@@ -69,6 +72,14 @@
 
 ; *********************
 
+(define (streamMap proc .argstreams)
+  (if (streamNull (car argstreams))
+      theEmptyStream
+      (consStream
+        (apply proc (map streamCar argstreams))
+        (apply streamMap
+               (cons proc (map streamCdr argstreams))))))
 
+; http://community.schemewiki.org/?sicp-ex-3.50
 
 (exit)
