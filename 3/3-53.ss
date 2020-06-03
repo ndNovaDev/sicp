@@ -8,10 +8,14 @@
 
 ; **********************
 
+(define (displayLine x)
+  (newline)
+  (display x))
+
 (define theEmptyStream '())
 
 (define (streamNull s)
-  (null? '()))
+  (null? s))
 
 (define (streamRef s n)
   (if (= n 0)
@@ -31,10 +35,18 @@
              (streamForEach proc (streamCdr s)))))
 
 (define (displayStream s)
-  (streamForEach dn s))
+  (streamForEach displayLine s))
+
+(define (delay exp)
+  (memoProc (lambda () exp)))
 
 (define (consStream a b)
   (cons a (delay b)))
+
+(define-syntax consStream
+  (syntax-rules ()
+    ((consStream a b)
+     (cons a (memoProc (lambda () b))))))
 
 (define (streamCar s) (car s))
 
@@ -67,13 +79,21 @@
                  result)
           result))))
 
-(define (delay exp)
-  (memoProc (lambda () exp)))
+
+(define (integersStartingFrom n)
+  (consStream n (integersStartingFrom (+ n 1))))
+
+(define (divisible x y) (= (remainder x y) 0))
+
+(define (addStreams s1 s2)
+  (streamMap + s1 s2))
+
+(define (scaleStream stream factor)
+  (streamMap (lambda (x) (* x factor)) stream))
+
 
 ; *********************
 
-; (1 p)
-; 1 2 4 8 16 32
-;https://sicp.readthedocs.io/en/latest/chp3/53.html
+; 1 2 4 8...
 
 (exit)
