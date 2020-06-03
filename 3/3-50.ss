@@ -72,14 +72,12 @@
 
 ; *********************
 
-(define (streamMap proc .argstreams)
-  (if (streamNull (car argstreams))
+(define (streamMap proc . argstrams)
+  (if (streamNull (car argstrams))
       theEmptyStream
       (consStream
-        (apply proc (map streamCar argstreams))
+        (apply proc (map streamCar argstrams))
         (apply streamMap
-               (cons proc (map streamCdr argstreams))))))
-
-; http://community.schemewiki.org/?sicp-ex-3.50
+               (cons proc (map streamCdr argstrams))))))
 
 (exit)
